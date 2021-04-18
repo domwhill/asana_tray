@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "asana": "^0.18.6",
+    "read-ini-file": "^3.0.1"
+  }
+}
