@@ -3,11 +3,11 @@ const path = require('path')
 const url = require('url');
 
 function getTasks(client, project_gid){
-      var electron = require("electron");
       client.tasks.getTasksForProject(project_gid, {param: "value", param: "value", opt_pretty: true})
           .then((TasksForProj) => {
 
-        console.log("tasks for project");
+        console.log("function getTasks getting tasks for project");
+        var tasks = [];
         let content = "";
         let task = {};
         let i=0;
@@ -22,6 +22,8 @@ function getTasks(client, project_gid){
           tasks.push(task)
 
         } while (i < TasksForProj.data.length -1)
+          console.log("tasks");
+          console.log(tasks);
           return tasks;
         })
 }
