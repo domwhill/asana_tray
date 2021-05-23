@@ -1,9 +1,9 @@
-const electron = require("electron");
+const electron = require('electron')
 const path = require('path')
-const url = require('url')
+const url = require('url');
 
 function getTasks(client, project_gid){
-
+      var electron = require("electron");
       client.tasks.getTasksForProject(project_gid, {param: "value", param: "value", opt_pretty: true})
           .then((TasksForProj) => {
 
@@ -27,8 +27,9 @@ function getTasks(client, project_gid){
 }
 
 function buildTray(client){
-    const iconPath = path.join(__dirname, 'tag.png')
-    tray = new Tray(iconPath)
+    console.log("dir = " + __dirname);
+    const iconPath = path.join(__dirname, 'tag.png');
+    tray = new electron.Tray(iconPath)
     var project_gid = "1137023841060961";
 
     var tasks = getTasks(client, project_gid);
@@ -48,4 +49,7 @@ function buildTray(client){
     tray.setIgnoreDoubleClickEvents(true)
 
     console.log(contextMenu);
+    return tray;
   }
+
+  module.exports = {getTasks, buildTray};
