@@ -23,26 +23,37 @@ const envVariables = require('./env-variables.json');
 // in a browser and copy in the code we got. It will then exchange that for
 // a token.
 console.log("clientid = " + envVariables.ASANA_CLIENT_ID);
-var client = Asana.Client.create({
+const client = Asana.Client.create({
   clientId: envVariables.ASANA_CLIENT_ID,//process.env['ASANA_CLIENT_ID'],
   clientSecret: envVariables.ASANA_CLIENT_SECRET//process.env['ASANA_CLIENT_SECRET']
 });
 
-client.useOauth();
-client.authorize().then(()=> { etray.buildTray(client);
+function authorizeAsana() {
+  client.useOauth();
+  return client.authorize();
+}
+
+async function showTray() {
+  try {
+    await authorizeAsana();
+    return etray.buildTray(client);
+  } catch (err) {
+    console.log("app not authorised yet");
+  }
+}
+
+app.on('ready', showTray);
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') {
+    app.quit();
+  }
 });
 
-
-  app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') {
-      app.quit();
-    }
-  });
-
-  app.on('activate', () => {
-    if (win === null) {
-    }
-  });
+app.on('activate', () => {
+  if (win === null) {
+  }
+});
 
 /** find all projects
 client.projects.findAll({"workspace":123456789})
