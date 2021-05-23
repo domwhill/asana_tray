@@ -28,7 +28,7 @@ function getTasks(client, project_gid){
 
 function buildTray(client){
     console.log("dir = " + __dirname);
-    const iconPath = path.join(__dirname, 'tag.png');
+    const iconPath = path.join(__dirname, '../tag.png');
     tray = new electron.Tray(iconPath)
     var project_gid = "1137023841060961";
 
@@ -43,7 +43,7 @@ function buildTray(client){
     console.log(tasks)
     console.log(template)
 
-    const contextMenu = Menu.buildFromTemplate(template)
+    const contextMenu = electron.Menu.buildFromTemplate(template)
     tray.setContextMenu(contextMenu)
     tray.setToolTip('Tray App')
     tray.setIgnoreDoubleClickEvents(true)
