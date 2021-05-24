@@ -3,7 +3,8 @@ const path = require('path')
 const url = require('url');
 
 function getTasks(client, project_gid){
-      client.tasks.getTasksForProject(project_gid, {param: "value", param: "value", opt_pretty: true})
+      let promise = new Promise( function(resolve, reject){
+      tasks = client.tasks.getTasksForProject(project_gid, {param: "value", param: "value", opt_pretty: true})
           .then((TasksForProj) => {
 
         console.log("function getTasks getting tasks for project");
@@ -22,11 +23,26 @@ function getTasks(client, project_gid){
           tasks.push(task)
 
         } while (i < TasksForProj.data.length -1)
-          console.log("tasks");
           console.log(tasks);
-          return tasks;
-        })
+          resolve(tasks);
+        });
+      });
+      return promise;
 }
+
+async function AsyncGetTasks(client, project_gid) {
+  try {
+    var tasks = await getTasks(client, project_gid);
+    //var tasks = await promiseA;
+    console.log("found tasks")
+    console.log(tasks)
+    return tasks;
+  } catch (err) {
+    console.log("Still waiting for tasks");
+  }
+}
+
+// todo: sort out asynchronous running of getTaskss then building the tray.
 
 function buildTray(client){
     console.log("dir = " + __dirname);
@@ -34,7 +50,10 @@ function buildTray(client){
     tray = new electron.Tray(iconPath)
     var project_gid = "1137023841060961";
 
-    var tasks = getTasks(client, project_gid);
+
+    //let promise = GetTasks(client, project_gid);
+    let subtray = AsyncGetTasks(client, project_gid).then((tasks) => {
+
     console.log("then statement tasks");
     console.log(tasks);
 
@@ -52,6 +71,8 @@ function buildTray(client){
 
     console.log(contextMenu);
     return tray;
+    });
+    return subtray;
   }
 
   module.exports = {getTasks, buildTray};
