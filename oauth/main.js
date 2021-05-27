@@ -28,6 +28,18 @@ const client = Asana.Client.create({
   clientSecret: envVariables.ASANA_CLIENT_SECRET//process.env['ASANA_CLIENT_SECRET']
 });
 
+function refreshAuth() {
+  // refresh token from previous authorisation
+  // examples/oauth/webserver
+  const credentials = {
+  // access_token: 'my_access_token',
+  refresh_token: 'my_refresh_token'
+};
+client.useOauth({
+  credentials: credentials
+});
+}
+
 function authorizeAsana() {
   client.useOauth();
   return client.authorize();

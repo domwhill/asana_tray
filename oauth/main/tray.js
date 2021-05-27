@@ -51,7 +51,6 @@ function buildTray(client){
     var project_gid = "1137023841060961";
 
 
-    //let promise = GetTasks(client, project_gid);
     let subtray = AsyncGetTasks(client, project_gid).then((tasks) => {
 
     console.log("then statement tasks");
