@@ -90,14 +90,11 @@ async function AsyncGetTasks(client, project_gid) {
             label: p_gid,
             submenu: tasks,
           }
-        promises.push(tasks);
-      template.push(subtemplate)
+      template.push(subtemplate);
+      promises.push(template);
     }
-    Promise.all(promises).then(template => {
-    console.log("found tasks")
-    console.log(template);
-    return template;
-  });
+    var p = Promise.all(promises)
+    return p;
   } catch (err) {
     console.log("Still waiting for tasks");
   }
@@ -126,13 +123,12 @@ function buildTray(client){
     var project_gid = "1137023841060961";
 
 
-    let template = AsyncGetTasks(client, project_gid).then((tasks) => {
+    let template = AsyncGetTasks(client, project_gid).then((template) => {
 
-    console.log("l 127 then statement tasks");
-    console.log("l 128 template main" +  template);
+    //console.log("l 128 template main");
+    //console.log(template[0]);
 
-
-    const contextMenu = electron.Menu.buildFromTemplate(template)
+    const contextMenu = electron.Menu.buildFromTemplate(template[0])
     tray.setContextMenu(contextMenu)
     tray.setToolTip('Tray App')
     tray.setIgnoreDoubleClickEvents(true)
