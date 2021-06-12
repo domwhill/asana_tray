@@ -53,8 +53,6 @@ async function AsyncGetTasks(client, project_gid) {
 }
 
 
-// todo: sort out asynchronous running of getTaskss then building the tray.
-
 function buildTray(client){
     console.log("dir = " + __dirname);
     const iconPath = path.join(__dirname, '../tag.png');
