@@ -2,6 +2,15 @@ const electron = require('electron')
 const path = require('path')
 const url = require('url');
 
+function getProjectName(client, project_gid){
+      let promise = new Promise( function(resolve, reject){
+      client.projects.findById(project_gid).then((proj) => {
+        resolve(proj.name)
+        })
+      })
+      return promise;
+}
+
 function getTasks(client, project_gid){
       let promise = new Promise( function(resolve, reject){
       tasks = client.tasks.getTasksForProject(project_gid, {param: "value", param: "value", opt_pretty: true})
@@ -22,7 +31,6 @@ function getTasks(client, project_gid){
           tasks.push(task)
 
         } while (i < TasksForProj.data.length -1)
-          //console.log(tasks);
           resolve(tasks);
         });
       });
@@ -36,9 +44,10 @@ async function AsyncGetTasks(client, project_gid) {
     let template = []
     let promises = [];
     for (let p_gid of project_gids) {
+      var project_name = await getProjectName(client, p_gid);
       var tasks = await getTasks(client, p_gid);
       let subtemplate = {
-            label: p_gid,
+            label: project_name,
             submenu: tasks,
           }
       template.push(subtemplate);
@@ -66,7 +75,7 @@ function buildTray(client){
     tray.setToolTip('Tray App')
     tray.setIgnoreDoubleClickEvents(true)
 
-    console.log(contextMenu);
+    //console.log(contextMenu);
     return tray;
     });
     return subtray;
