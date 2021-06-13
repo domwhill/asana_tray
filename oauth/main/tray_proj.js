@@ -6,7 +6,6 @@ function getTasks(client, project_gid){
       let promise = new Promise( function(resolve, reject){
       tasks = client.tasks.getTasksForProject(project_gid, {param: "value", param: "value", opt_pretty: true})
           .then((TasksForProj) => {
-
         console.log("function getTasks getting tasks for project");
         var tasks = [];
         let content = "";

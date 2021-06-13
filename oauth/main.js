@@ -24,17 +24,23 @@ const fs = require('fs')
 // When `authorize` is called it will prompt us to perform the authorization
 // in a browser and copy in the code we got. It will then exchange that for
 // a token.
-//console.log("clientid = " + envVariables.ASANA_CLIENT_ID);
-//const client = Asana.Client.create({
-//  clientId: envVariables.ASANA_CLIENT_ID,//process.env['ASANA_CLIENT_ID'],
-//  clientSecret: envVariables.ASANA_CLIENT_SECRET//process.env['ASANA_CLIENT_SECRET']
-//});
 
 function createClient() {
   return Asana.Client.create({
     clientId: envVariables.ASANA_CLIENT_ID,
     clientSecret: envVariables.ASANA_CLIENT_SECRET
   });
+}
+
+function refreshToken(client) {
+  console.log("No token found go to auth url:");
+  client.useOauth();
+  client.authorize().then(function() {
+  console.log("authorized refresh_token: ");
+  console.log(client.dispatcher.authenticator.credentials);
+  var jsonVariable = {'token': client.dispatcher.authenticator.credentials};
+  fs.writeFileSync('./token-store.json', JSON.stringify(jsonVariable));
+});
 }
 
 
@@ -51,6 +57,7 @@ function getClient() {
       return client
     }).catch(function(err) {
       console.log('Error fetching user: ' + err);
+      refreshToken(client);
     });
   } else {
     // Otherwise redirect to authorization.
@@ -70,7 +77,6 @@ function getClient() {
 function authorizeAsana(){
   let promise = new Promise(function(resolve, reject) {
               var client = getClient();
-              console.log("client")
               resolve(client)
   });
   return promise
@@ -82,7 +88,6 @@ async function showTray() {
   try {
     //var client = 0;
     var client = await authorizeAsana();
-    console.log("authorised---> ");
     return etray.buildTray(client);
   } catch (err) {
     console.log("app not authorised yet");
@@ -101,10 +106,3 @@ app.on('activate', () => {
   if (win === null) {
   }
 });
-
-/** find all projects
-client.projects.findAll({"workspace":123456789})
-	.then(function(response) {
- 		console.log(response);
- 	})
-**/
