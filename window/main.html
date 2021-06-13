@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Number guessing game</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+
+      .lastResult {
+        color: white;
+        padding: 3px;
+      }
+    </style>
+</head>
+
+<body>
+<h1>Add project</h1>
+
+
+<div class="form">
+    <p class="allProjects"></p>
+    <div class="output" style="min-height: 125px;"><ul><li>empty item</li></ul></div>
+    <label for="projectField">Enter a project: </label><input type="text" id="projectField" class="projectField">
+    <input type="submit" value="Add a project" class="projectFieldSubmit">
+</div>
+
+
+<script src="./bundle.js"></script>
+</body>
+</html>
