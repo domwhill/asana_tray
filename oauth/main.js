@@ -82,7 +82,6 @@ function authorizeAsana(){
   return promise
 }
 
-
 async function showTray() {
   let win;
   try {

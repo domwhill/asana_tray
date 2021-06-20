@@ -1,7 +1,8 @@
 const electron = require('electron')
 const path = require('path')
 const url = require('url');
-
+const pgid = require('../project_gids.json')
+const window = require('./add_project_window.js')
 function getProjectName(client, project_gid){
       let promise = new Promise( function(resolve, reject){
       client.projects.findById(project_gid).then((proj) => {
@@ -37,10 +38,11 @@ function getTasks(client, project_gid){
       return promise;
 }
 
-async function AsyncGetTasks(client, project_gid) {
+async function AsyncGetTasks(client, project_gids) {
   try {
     console.log("get tray")
-    const project_gids=["1137023841060961","1121178260222489"];
+    console.log(project_gids)
+    //const project_gids = ["1137023841060961","1121178260222489"];
     let template = []
     let promises = [];
     for (let p_gid of project_gids) {
@@ -53,6 +55,9 @@ async function AsyncGetTasks(client, project_gid) {
       template.push(subtemplate);
       promises.push(template);
     }
+    template.push({label: "Edit projects" ,
+                   click: window.createWindow
+                   });
     var p = Promise.all(promises)
     return p;
   } catch (err) {
@@ -65,17 +70,16 @@ function buildTray(client){
     console.log("dir = " + __dirname);
     const iconPath = path.join(__dirname, '../tag.png');
     tray = new electron.Tray(iconPath)
-    var project_gid = "1137023841060961";
+    var project_gids = pgid.gid;
+    console.log(" --->");
+    console.log(project_gids)
 
-
-    let template = AsyncGetTasks(client, project_gid).then((template) => {
+    let template = AsyncGetTasks(client, project_gids).then((template) => {
 
     const contextMenu = electron.Menu.buildFromTemplate(template[0])
     tray.setContextMenu(contextMenu)
     tray.setToolTip('Tray App')
     tray.setIgnoreDoubleClickEvents(true)
-
-    //console.log(contextMenu);
     return tray;
     });
     return subtray;

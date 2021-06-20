@@ -1,6 +1,9 @@
-
 #
 # https://www.electronjs.org/docs/tutorial/quick-start
+start:
+	browserify window.js -o bundle.js;
+	electron main.js
+
 build:
 	npm init -y;\
 	npm i -D electron;\
@@ -13,4 +16,3 @@ run:
 
 create_executable:
 	npm run make
-	
