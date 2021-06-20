@@ -5,36 +5,39 @@
       const projectFieldSubmit = document.querySelector('.projectFieldSubmit');
       const projectField = document.querySelector('.projectField');
       const list = document.querySelector('.output ul');
-      displayedTask.textContent = 'test content';
+      allProjects.textContent = 'test content';
       list.innerHTML = '';
 
       var gids = projectGids.gid;
       console.log(gids)
 
-      function getGidStr(){
+      function writeList(in_gid){
       var gid_str = '';
       let i=0;
       list.innerHTML = '';
       do {
         i =i+1;
-        //console.log(gids);
-        gid_str += gids[i] + '\n';
+        console.log(in_gid[i]);
+        gid_str += in_gid[i] + '\n';
         let listItem = document.createElement('li');
-        listItem.textContent = gids[i];
+        listItem.textContent = in_gid[i];
         list.appendChild(listItem);
-      } while (i < gids.length-1)
+      } while (i < in_gid.length -1)
       }
 
       function addProject() {
         let addedProj = projectField.value;
         gids.push(addedProj);
         console.log(gids);
-        projectField.textContent += addedProj + ' ';
-        var gid_json = {"gids":gids};
+        projectField.textContent = addedProj + ' ';
+        console.log(projectField.textContent);
+        var gid_json = {"gids": gids};
+        console.log("gid_json")
         console.log(gid_json)
-        fs.writeFileSync('./project_gids.json', JSON.stringify(gid_json));
+        writeList(gids)
+        //fs.writeFileSync('./project_gids.json', JSON.stringify(gid_json));
       }
 
-      getGidStr()
+      writeList(gids)
 
       projectFieldSubmit.addEventListener('click', addProject);
