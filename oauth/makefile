@@ -1,6 +1,6 @@
 #
 # https://www.electronjs.org/docs/tutorial/quick-start
-start:
+all:
 	browserify window.js -o bundle.js;
 	electron main.js
 
