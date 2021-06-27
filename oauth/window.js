@@ -1,13 +1,13 @@
       //const fs = require('fs')
       //const fs = require('browserify-fs')
-      const Store = require('electron-store');
-      const schema = {gid: { type:
+      //const Store = require('electron-store');
+      /*const schema = {gid: { type:
                         'string',
                          maximum: 100,
                          minimum: 1,
                          default:["1137023841060961","1121178260222489"]}}
       const store = new Store(schema);
-
+        */
       //const projectGids = require('./project_gids.json');
 
       const allProjects = document.querySelector('.allProjects');
@@ -16,7 +16,8 @@
       const list = document.querySelector('.output ul');
       allProjects.textContent = 'test content';
       list.innerHTML = '';
-      var gids = store.get('gid')
+      //https://stackoverflow.com/questions/44391448/electron-require-is-not-defined/57049268#57049268
+      var gids = window.store.get('gid')
       //var gids = projectGids.gid;
       //console.log(gids)
 
@@ -44,7 +45,9 @@
         console.log("gid_json")
         console.log(gid_json)
         writeList(gids)
-        store.set('gid', gids)
+        let data = JSON.parse(query['?data'])
+
+        //store.set('gid', gids)
       }
 
       writeList(gids)
