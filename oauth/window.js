@@ -9,6 +9,8 @@
       const store = new Store(schema);
         */
       //const projectGids = require('./project_gids.json');
+      //const store = new Store(schema);
+
 
       const allProjects = document.querySelector('.allProjects');
       const projectFieldSubmit = document.querySelector('.projectFieldSubmit');
@@ -17,9 +19,11 @@
       allProjects.textContent = 'test content';
       list.innerHTML = '';
       //https://stackoverflow.com/questions/44391448/electron-require-is-not-defined/57049268#57049268
-      var gids = window.store.get('gid')
+      console.log(window)
+      var gids = window.api.getgid()
       //var gids = projectGids.gid;
-      //console.log(gids)
+      console.log("gids:");
+      console.log(gids);
 
       function writeList(in_gid){
       var gid_str = '';
@@ -35,8 +39,8 @@
       } while (i < in_gid.length -1)
       }
 
-      function addProject() {
-        let addedProj = projectField.value;
+      function addProject(addedProj) {
+        //let addedProj = projectField.value;
         gids.push(addedProj);
         console.log(gids);
         projectField.textContent = addedProj + ' ';
@@ -47,10 +51,10 @@
         writeList(gids)
         let data = JSON.parse(query['?data'])
 
-        //store.set('gid', gids)
+        store.set('gid', gids)
       }
 
       writeList(gids)
 
-      projectFieldSubmit.addEventListener('click', addProject);
+      projectFieldSubmit.addEventListener('click', addProject(projectField.value));
 
