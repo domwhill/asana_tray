@@ -20,11 +20,12 @@
       list.innerHTML = '';
       //https://stackoverflow.com/questions/44391448/electron-require-is-not-defined/57049268#57049268
       console.log(window)
-      var gids = window.api.getgid()
+      var gid_bridge = window.api.getgid()
       //var gids = projectGids.gid;
-      console.log("gids:");
-      console.log(gids);
-
+      console.log("gid bridge:");
+      console.log(gid_bridge);
+      var gids = gid_bridge.data()
+      console.log("gids = " + gids);
       function writeList(in_gid){
       var gid_str = '';
       let i=0;
@@ -49,7 +50,6 @@
         console.log("gid_json")
         console.log(gid_json)
         writeList(gids)
-        let data = JSON.parse(query['?data'])
 
         store.set('gid', gids)
       }

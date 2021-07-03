@@ -4,15 +4,12 @@
 
 
   function get_gid_store() {
-    const schema = {gid: { type:
-                      'string',
-                       maximum: 100,
-                       minimum: 1,
-                       default:["1137023841060961","1121178260222489"]}}
+      const schema = {gid: {
+                    default:["1137023841060961","1121178260222489"]}}
 
-    const store = new Store(schema);
-   console.log(window.store.get('gid'))
-   return window.store.get('gid')
+
+    const store = new Store({schema});
+   return store.get('gid')
   }
 
 
@@ -21,7 +18,8 @@ contextBridge.exposeInMainWorld(
     'api',
     {
         getgid: () => ({
-            data: get_gid_store
+            data: get_gid_store,
+            other_data: ["1137023841060961","1121178260222489"]
         }),
         get_gid: () => ipcRenderer.send('do-a-thing')
     }
