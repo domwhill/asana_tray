@@ -24,7 +24,7 @@
       //var gids = projectGids.gid;
       console.log("gid bridge:");
       console.log(gid_bridge);
-      var gids = gid_bridge.data()
+      var gids = gid_bridge.data
       console.log("gids = " + gids);
       function writeList(in_gid){
       var gid_str = '';
