@@ -1,10 +1,17 @@
 
+# Run instructions
+Run the main script by entering in commandline:
+```
+electron main.js
+```
 
 # Known bugs and issues
 - need to start up app twice upon authorisation - once to authorise. Close then reopen.
 - Projects not correctly stored
 
-# Building electron apps - notes
+
+# Notes
+## Building electron apps - notes
 
 ```
 npm start
